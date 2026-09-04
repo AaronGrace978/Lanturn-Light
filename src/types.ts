@@ -1,124 +1,82 @@
 /**
- * Core domain types for Lanturn Light — the decision feedback loop.
+ * A ring is three technologies stacked.
+ *
+ * 1. Will  — intention → command (EMG / BCI / voice / gesture)
+ * 2. Brain — AI that advises, plans, and talks back
+ * 3. Construct — effectors in the world (today: drone swarm)
+ *
+ * True hard-light (force at a distance with nothing at the target)
+ * is the unsolved physics gap. Everything else is a build plan.
  */
 
-/** Market / signal context the harness saw when it decided. */
-export interface DecisionInputs {
-  /** Optional symbol or instrument. */
-  symbol?: string;
-  /** Whale / large transfers, order-flow notes, etc. */
-  whaleTransfers?: unknown[];
-  /** Headlines or news snippets at decision time. */
-  newsHeadlines?: string[];
-  /** Price / volume / indicator snapshot. */
-  marketSnapshot?: Record<string, unknown>;
-  /** Free-form extra context. */
-  extra?: Record<string, unknown>;
+/** 3D point in ring-local meters. */
+export interface Vec3 {
+  x: number;
+  y: number;
+  z: number;
 }
 
-export type Direction = "long" | "short" | "flat";
+export type IntentionSource = "emg" | "eeg" | "voice" | "gesture" | "text" | "sim";
 
-export interface ParsedDecision {
-  direction: Direction;
-  /** 0–1 confidence from the model or consensus. */
-  confidence: number;
-  rationale: string;
-  /** Optional size hint (fraction of risk budget). */
-  size?: number;
-}
-
-export interface ModelConsultation {
-  modelId: string;
-  provider?: string;
-  /** Raw provider output before parsing. */
-  rawOutput: string;
-  parsed: ParsedDecision;
-  /** Wall time for this call, if known. */
-  latencyMs?: number;
-}
-
-export type SignalType =
-  | "whale"
-  | "news"
-  | "technical"
-  | "consensus"
-  | "custom"
-  | string;
-
-export interface DecisionOutcome {
-  /** Whether direction matched realized move (flat = miss if move ≠ 0). */
-  hit: boolean;
-  /** Realized P&L in quote currency (or unitless points). */
-  realizedPnl: number;
-  /** Price at decision time. */
-  entryPrice: number;
-  /** Price at horizon. */
-  exitPrice: number;
-  /** Actual return over the horizon (e.g. 0.02 = +2%). */
-  realizedReturn: number;
-  reconciledAt: string;
-}
-
-export interface JournalEntry {
-  id: string;
-  timestamp: string;
-  /** When outcome should be evaluated (ISO). */
-  horizonAt: string;
-  signalType: SignalType;
-  inputs: DecisionInputs;
-  models: ModelConsultation[];
-  /** Final harness decision after weighting / consensus. */
-  decision: ParsedDecision;
-  /** Weights applied to each model at decision time. */
-  modelWeights: Record<string, number>;
-  outcome: DecisionOutcome | null;
-}
-
-export interface ConfidenceBucket {
-  /** Inclusive lower bound, exclusive upper (last bucket inclusive). */
-  min: number;
-  max: number;
-  label: string;
-}
-
-export interface CalibrationRow {
-  modelId: string;
-  signalType: SignalType;
-  bucket: string;
-  decisions: number;
-  hits: number;
-  winRate: number;
-  avgConfidence: number;
-  totalPnl: number;
-}
-
-export interface PricePoint {
-  symbol: string;
-  price: number;
+/** Raw will signal before the ring interprets it. */
+export interface IntentionSignal {
+  source: IntentionSource;
+  /** Free-text or transcribed intent, e.g. "form a shield". */
+  utterance: string;
+  /** 0–1 strength of the will reading. */
+  strength: number;
+  /** Optional muscle / channel samples for EMG adapters. */
+  channels?: number[];
   at: string;
 }
 
-export interface DecisionHarnessOptions {
-  /** Horizon length in ms (default 24h). */
-  horizonMs?: number;
-  /** Confidence bucket edges (default 0.5 / 0.7 / 0.85 / 1). */
-  confidenceBuckets?: ConfidenceBucket[];
-  /** Floor weight so a cold model still gets a vote. */
-  minModelWeight?: number;
-  /** Prior weight before any outcomes exist. */
-  priorWeight?: number;
+export type ConstructKind =
+  | "shield"
+  | "beam"
+  | "platform"
+  | "grasp"
+  | "scout"
+  | "custom";
+
+/** What the brain decided the construct should be. */
+export interface ConstructPlan {
+  kind: ConstructKind;
+  /** Human-readable mission the brain will narrate. */
+  narration: string;
+  /** Target formation points for swarm drones. */
+  formation: Vec3[];
+  /** Optional payload hint (carry / project / hold). */
+  payload?: string;
+  /** How hard to push (maps to thruster / aggression budget). */
+  force: number;
 }
 
-export interface ModelAdvisor {
-  modelId: string;
-  provider?: string;
-  consult(inputs: DecisionInputs, signalType: SignalType): Promise<{
-    rawOutput: string;
-    parsed: ParsedDecision;
-    latencyMs?: number;
-  }>;
+export interface BrainReply {
+  plan: ConstructPlan;
+  /** Spoken / text voice of the ring. */
+  voice: string;
+  confidence: number;
 }
 
-export interface PriceOracle {
-  getPrice(symbol: string, at: string): Promise<number>;
+export type DroneStatus = "idle" | "forming" | "holding" | "mission" | "fault";
+
+export interface DroneState {
+  id: string;
+  position: Vec3;
+  target: Vec3 | null;
+  status: DroneStatus;
+}
+
+export interface SwarmSnapshot {
+  drones: DroneState[];
+  formationLabel: string;
+  ready: boolean;
+}
+
+export interface MissionResult {
+  intention: IntentionSignal;
+  brain: BrainReply;
+  swarm: SwarmSnapshot;
+  /** Honest: true force-at-a-distance without hardware is still impossible. */
+  physicsNote: string;
 }

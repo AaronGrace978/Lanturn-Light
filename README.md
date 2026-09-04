@@ -1,86 +1,68 @@
 # Lanturn Light
 
-Decision harness with an **outcome feedback loop** — so model consensus learns from what actually happened, not what sounded smartest.
+**A buildable Green Lantern ring.**
 
-Inspired by the idea of a lantern that only stays lit when it *works*: journal every call, reconcile after the horizon, calibrate by model × signal × confidence, then reweight the next decision.
+A ring is three technologies stacked:
 
-## Loop
+1. **Will-to-command** — reads intention and obeys. Real version: EMG / EEG / voice / gesture. Prototype-grade hardware exists today.
+2. **The AI inside the ring** — advises you, plans constructs, talks back. Wire this to a local brain or your chat agent.
+3. **Hard-light constructs** — physics wall on true solid light. Nearest real stand-ins: optical tweezers, mid-air plasma voxels, acoustic levitation… and the thing you can actually order parts for: **a drone swarm**.
 
-1. **Decision Journal** — every harness call persists timestamp, inputs (whales, headlines, market snapshot), model raw outputs, parsed decision, and `outcome: null`.
-2. **Outcome Reconciler** — after the horizon (default 24h), pull the real price move and backfill hit/miss + realized P&L.
-3. **Calibration Table** — aggregate win rate by model, signal type, and confidence bucket.
-4. **Harness Weighting** — before the next decision, weight model consensus by demonstrated accuracy. Persistent losers lose equal say.
+The drones *are* your constructs: will-commanded, formation-formed, mission-executed. They can shape-shift, carry, project. Force at a distance with **nothing** at the target stays unsolved — that's the true ring magic. Everything else is a build plan.
 
-Build order that matters: journal → reconciler → calibration → weighting.
+## Stack
+
+```
+Will  →  Brain  →  Construct
+EMG/text   LocalRingBrain / LLM   DroneSwarmConstruct
+```
+
+| Layer | Module | What you swap later |
+|-------|--------|---------------------|
+| Will | `TextWill`, `SimulatedEmgWill`, `AdapterWill` | BLE EMG band, EEG headset, mic STT |
+| Brain | `LocalRingBrain`, `DelegateBrain` | Fine-tuned model / Cursor agent / Ollama |
+| Construct | `DroneSwarmConstruct` | Real MAVLink / Crazyflie / custom swarm |
+
+`HardLightStub` exists only to refuse the physics lie out loud.
 
 ## Install
 
 ```bash
 npm install
 npm run build
+npm test
+npm run example
 ```
 
-## Quick start
+## Pulse the ring
 
 ```ts
 import {
-  DecisionHarness,
-  FileJournalStore,
-  OutcomeReconciler,
-  type ModelAdvisor,
-  type PriceOracle,
+  DroneSwarmConstruct,
+  LanternRing,
+  LocalRingBrain,
+  TextWill,
 } from "lanturn-light";
 
-const advisors: ModelAdvisor[] = [
-  {
-    modelId: "emerald",
-    async consult(inputs) {
-      // call your frontier provider here
-      return {
-        rawOutput: "...",
-        parsed: {
-          direction: "long",
-          confidence: 0.8,
-          rationale: "whale + news aligned",
-        },
-      };
-    },
-  },
-];
-
-const harness = new DecisionHarness(new FileJournalStore("./data/journal"), advisors, {
-  horizonMs: 24 * 60 * 60 * 1000,
+const ring = new LanternRing({
+  will: new TextWill("form a shield", 0.95),
+  brain: new LocalRingBrain(6),
+  construct: new DroneSwarmConstruct(6),
 });
 
-const { decision, entry } = await harness.decide(
-  {
-    symbol: "BTC",
-    newsHeadlines: ["..."],
-    whaleTransfers: [],
-    marketSnapshot: { price: 64000 },
-  },
-  "news",
-);
-
-// later — scheduled job
-const oracle: PriceOracle = {
-  async getPrice(symbol, at) {
-    /* your market data */
-    return 0;
-  },
-};
-await new OutcomeReconciler(harness.journal, oracle).reconcileDue();
-const weights = await harness.calibration.modelWeights({ signalType: "news" });
+const mission = await ring.pulse();
+console.log(mission.brain.voice);
+console.log(mission.swarm.formationLabel);
 ```
 
-## Scripts
+## What this is not
 
-| Script | What |
-|--------|------|
-| `npm run build` | Compile to `dist/` |
-| `npm run check` | Typecheck only |
-| `npm test` | Node test runner |
-| `npm run example` | Toy trading loop (file journal under `data/`) |
+- Not solid photons. Light has no rest mass; photons don't bind into walls.
+- Not telekinesis. If nothing is at the target, you can't push it — yet.
+
+## What this is
+
+~70% of a Lantern ring as engineering: intention in, mind in the loop, constructs in the field. The voice in the ring can be you, me, or any model you plug into `DelegateBrain`.
 
 ## Repo
 

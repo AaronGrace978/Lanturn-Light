@@ -1,32 +1,33 @@
 export type {
-  CalibrationRow,
-  ConfidenceBucket,
-  DecisionHarnessOptions,
-  DecisionInputs,
-  DecisionOutcome,
-  Direction,
-  JournalEntry,
-  ModelAdvisor,
-  ModelConsultation,
-  ParsedDecision,
-  PriceOracle,
-  PricePoint,
-  SignalType,
+  BrainReply,
+  ConstructKind,
+  ConstructPlan,
+  DroneState,
+  DroneStatus,
+  IntentionSignal,
+  IntentionSource,
+  MissionResult,
+  SwarmSnapshot,
+  Vec3,
 } from "./types.js";
 
-export { DecisionJournal } from "./journal.js";
-export type { RecordDecisionParams } from "./journal.js";
-
-export { MemoryJournalStore, FileJournalStore } from "./store.js";
-export type { JournalStore } from "./store.js";
-
-export { OutcomeReconciler } from "./reconciler.js";
-export type { ReconcileResult } from "./reconciler.js";
+export {
+  AdapterWill,
+  SimulatedEmgWill,
+  TextWill,
+  type WillInterface,
+} from "./will.js";
 
 export {
-  CalibrationTable,
-  DEFAULT_CONFIDENCE_BUCKETS,
-} from "./calibration.js";
+  DelegateBrain,
+  LocalRingBrain,
+  type RingBrain,
+} from "./brain.js";
 
-export { DecisionHarness, consensusDecision } from "./harness.js";
-export type { DecideResult } from "./harness.js";
+export {
+  DroneSwarmConstruct,
+  HardLightStub,
+  type ConstructField,
+} from "./construct.js";
+
+export { LanternRing, PHYSICS_GAP } from "./ring.js";

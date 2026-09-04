@@ -1,7 +1,7 @@
 {
   "name": "lanturn-light",
   "version": "0.1.0",
-  "description": "Decision harness with outcome feedback — journal, reconcile, calibrate, reweight.",
+  "description": "A buildable Green Lantern ring stack: Will → Brain → Constructs (drone swarm).",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,15 +14,16 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
-    "example": "tsx examples/trading-loop.ts",
-    "test": "tsx --test src/feedback.test.ts"
+    "example": "tsx examples/ring-mission.ts",
+    "test": "tsx --test src/ring.test.ts"
   },
   "keywords": [
-    "decision-harness",
-    "calibration",
-    "trading",
-    "agent",
-    "feedback-loop"
+    "green-lantern",
+    "ring",
+    "bci",
+    "emg",
+    "drone-swarm",
+    "constructs"
   ],
   "license": "MIT",
   "engines": {
