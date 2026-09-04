@@ -1,5 +1,23 @@
 # Lanturn Light
 
+<p align="center">
+  <img src="docs/assets/lanturn-light-hero.png" alt="Lanturn Light ring" width="720" />
+</p>
+
+<p align="center">
+  <img src="docs/assets/icon-ring.png" alt="Ring" width="48" />
+  &nbsp;
+  <img src="docs/assets/badge-will.png" alt="Will" width="48" title="Will" />
+  &nbsp;
+  <img src="docs/assets/badge-brain.png" alt="Brain" width="48" title="Brain" />
+  &nbsp;
+  <img src="docs/assets/badge-construct.png" alt="Construct" width="48" title="Construct" />
+  &nbsp;
+  <img src="docs/assets/badge-typescript.png" alt="TypeScript" width="48" title="TypeScript" />
+  &nbsp;
+  <img src="docs/assets/badge-node.png" alt="Node" width="48" title="Node" />
+</p>
+
 **A buildable Green Lantern ring.**
 
 A ring is three technologies stacked:
@@ -17,11 +35,13 @@ Will  →  Brain  →  Construct
 EMG/text   LocalRingBrain / LLM   DroneSwarmConstruct
 ```
 
-| Layer | Module | What you swap later |
-|-------|--------|---------------------|
-| Will | `TextWill`, `SimulatedEmgWill`, `AdapterWill` | BLE EMG band, EEG headset, mic STT |
-| Brain | `LocalRingBrain`, `DelegateBrain` | Fine-tuned model / Cursor agent / Ollama |
-| Construct | `DroneSwarmConstruct` | Real MAVLink / Crazyflie / custom swarm |
+| | Layer | Module | What you swap later |
+|---|-------|--------|---------------------|
+| <img src="docs/assets/badge-will.png" width="28" alt="" /> | Will | `TextWill`, `SimulatedEmgWill`, `AdapterWill` | BLE EMG band, EEG headset, mic STT |
+| <img src="docs/assets/badge-brain.png" width="28" alt="" /> | Brain | `LocalRingBrain`, `DelegateBrain` | Fine-tuned model / Cursor agent / Ollama |
+| <img src="docs/assets/badge-construct.png" width="28" alt="" /> | Construct | `DroneSwarmConstruct` | Real MAVLink / Crazyflie / custom swarm |
+
+Built with <img src="docs/assets/badge-typescript.png" width="20" alt="TypeScript" /> TypeScript and <img src="docs/assets/badge-node.png" width="20" alt="Node" /> Node.
 
 `HardLightStub` exists only to refuse the physics lie out loud.
 
