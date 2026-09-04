@@ -1,0 +1,152 @@
+:root {
+  color-scheme: dark;
+  --energy: #3dff7a;
+  --energy-dim: #0b3d22;
+  --ink: #e8ffe8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  color: var(--ink);
+  font-family: "Share Tech Mono", ui-monospace, monospace;
+}
+
+#view {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+#view:active {
+  cursor: grabbing;
+}
+
+.hud {
+  position: fixed;
+  left: 24px;
+  top: 24px;
+  right: 24px;
+  max-width: 520px;
+  pointer-events: none;
+  text-shadow: 0 0 18px rgba(61, 255, 122, 0.35);
+}
+
+.hud * {
+  pointer-events: auto;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--energy);
+}
+
+h1 {
+  margin: 0;
+  font-family: Orbitron, sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: 0.08em;
+}
+
+.voice {
+  margin: 10px 0 22px;
+  max-width: 46ch;
+  line-height: 1.45;
+  color: #b7ffcf;
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--energy);
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+input,
+button {
+  font: inherit;
+  border: 1px solid rgba(61, 255, 122, 0.45);
+  background: rgba(0, 8, 2, 0.72);
+  color: var(--ink);
+}
+
+input {
+  flex: 1;
+  padding: 10px 12px;
+  outline: none;
+}
+
+input:focus,
+button:hover,
+button:focus-visible {
+  border-color: var(--energy);
+  box-shadow: 0 0 16px rgba(61, 255, 122, 0.25);
+}
+
+button {
+  padding: 10px 14px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.chips button {
+  padding: 7px 10px;
+  font-size: 12px;
+  background: var(--energy-dim);
+}
+
+.status {
+  margin-top: 16px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.error {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  color: #ffb4b4;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .hud {
+    left: 14px;
+    right: 14px;
+    top: 14px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+}

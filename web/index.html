@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lanturn Light — Hard-light construct</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <canvas id="view"></canvas>
+    <div class="hud">
+      <header>
+        <p class="kicker">Will → Brain → Construct</p>
+        <h1>LANTURN LIGHT</h1>
+        <p id="voice" class="voice">Awaiting will.</p>
+      </header>
+      <form id="command-form">
+        <label for="utterance">Command the ring</label>
+        <div class="row">
+          <input
+            id="utterance"
+            name="utterance"
+            autocomplete="off"
+            value="form a shield around us"
+          />
+          <button type="submit">Pulse</button>
+        </div>
+      </form>
+      <div class="chips" id="chips">
+        <button type="button" data-cmd="form a shield">Shield</button>
+        <button type="button" data-cmd="fire a beam">Beam</button>
+        <button type="button" data-cmd="raise a platform">Platform</button>
+        <button type="button" data-cmd="grasp the target">Grasp</button>
+        <button type="button" data-cmd="scout ahead">Scout</button>
+        <button type="button" data-cmd="stand down">Stand down</button>
+      </div>
+      <p id="status" class="status">WebGL2 raymarch · drone swarm construct</p>
+    </div>
+    <p id="gl-error" class="error hidden"></p>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
