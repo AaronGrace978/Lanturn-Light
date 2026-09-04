@@ -1,0 +1,36 @@
+{
+  "name": "lanturn-light",
+  "version": "0.1.0",
+  "description": "Decision harness with outcome feedback — journal, reconcile, calibrate, reweight.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "example": "tsx examples/trading-loop.ts",
+    "test": "tsx --test src/feedback.test.ts"
+  },
+  "keywords": [
+    "decision-harness",
+    "calibration",
+    "trading",
+    "agent",
+    "feedback-loop"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
